@@ -5,6 +5,7 @@ cost of serving all customers M where d (n,m) is the cost of serving customer m 
 warehouse location n."""
 
 from pyomo.environ import * #every model starts with this to load the pyomo modeling environment
+from pyomo.opt import SolverFactory
 N = 3
 M = 4
 P = 3
@@ -27,5 +28,9 @@ for n in model.Locations:
 
 model.num_facilities = Constraint(expr=sum(model.y[n] for n in model.Locations)==P)
 
+# Create a solver
+opt = pyomo.SolverFactory('glpk')
+opt.solve(model) 
+
 #Passing to solver
-pyomo solve <concrete p-median.py> [--solver=<glpk>] [--summary]
+#pyomo solve <concrete p-median.py> [--solver=<glpk>] [--summary]
